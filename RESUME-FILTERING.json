@@ -1,0 +1,851 @@
+{
+  "name": "RESUME-FILTERING",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -944,
+        224
+      ],
+      "id": "672b29ea-d0c2-480d-a5f8-d165b59340a6",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "re9TlT5iSsX2jkEI",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "resume-filtering",
+          "mode": "list",
+          "cachedResultName": "resume-filtering"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        -720,
+        224
+      ],
+      "id": "53cdc050-bba0-4171-a927-0176238f3144",
+      "name": "Pinecone Vector Store",
+      "credentials": {
+        "pineconeApi": {
+          "id": "u97m5RiHjaEtBMEY",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsHuggingFaceInference",
+      "typeVersion": 1,
+      "position": [
+        -720,
+        448
+      ],
+      "id": "9cb2af9a-bfdb-4946-a9f9-bdfb0c506ee4",
+      "name": "Embeddings HuggingFace Inference",
+      "credentials": {
+        "huggingFaceApi": {
+          "id": "p9o4mUGyjK9DIjce",
+          "name": "HuggingFaceApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        -592,
+        448
+      ],
+      "id": "69a493f2-283e-40dc-828c-186130231d44",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "content": "## Storing embeddings in vector database\n**Using Pinecone**",
+        "height": 544,
+        "width": 896,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1280,
+        48
+      ],
+      "typeVersion": 1,
+      "id": "527d6a84-8706-4fc4-a5d9-9e3f64022bc3",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1eObKzskI8pTlsKXNS_ON5oVFhKQ4a-XD",
+          "mode": "list",
+          "cachedResultName": "RESUMES",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1eObKzskI8pTlsKXNS_ON5oVFhKQ4a-XD"
+        },
+        "event": "fileCreated",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1168,
+        768
+      ],
+      "id": "58e232e9-e2e4-4c8a-a197-5d48dab940b9",
+      "name": "Fetch Resume",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "re9TlT5iSsX2jkEI",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1tWuD-Zfoa_1D4JIOI1eTW5N774i4lvXy",
+          "mode": "list",
+          "cachedResultName": "JOB_DESC",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1tWuD-Zfoa_1D4JIOI1eTW5N774i4lvXy"
+        },
+        "event": "fileCreated",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1168,
+        224
+      ],
+      "id": "68d92ba5-6e64-409e-9723-973121331ebc",
+      "name": "Fetch Job Description",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "re9TlT5iSsX2jkEI",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -944,
+        768
+      ],
+      "id": "28c73a1c-8ef6-49ee-a0fe-973ce3f3da4d",
+      "name": "Download file1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "re9TlT5iSsX2jkEI",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        -720,
+        768
+      ],
+      "id": "43264827-9d31-40ee-bb50-5c5ce0946e57",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.text }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are a resume evaluation AI. \nAlways return pure JSON with no markdown, no backticks, no explanations.\n\nYour tasks:\n1. Extract the following fields from the resume text:\n   - full_name\n   - email\n   - phone\n2. Use the vector database memory tool to retrieve the job description (JD).\n3. Compare the resume to the JD.\n4. Calculate a score between 0–100.\n5. Set \"match\": true if score >= 70, else false.\n6. Include lists:\n   - skills_matched\n   - skills_missing\n   - resume_keywords\n   - jd_keywords\n\nSTRICT RULES:\n- Output ONLY JSON.\n- Do NOT wrap output in quotes.\n- No markdown.\n- No ```json``` blocks.\n- No explanations.\n- No text before or after the JSON.\n- All keys must exist. Use null if a value is missing.\n\nJSON MUST FOLLOW THIS FORMAT EXACTLY:\n\n{\n  \"full_name\": \"string or null\",\n  \"email\": \"string or null\",\n  \"phone\": \"string or null\",\n  \"match\": true,\n  \"score\": 0,\n  \"skills_matched\": [],\n  \"skills_missing\": [],\n  \"jd_keywords\": [],\n  \"resume_keywords\": []\n}\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        -368,
+        768
+      ],
+      "id": "4fc2ac3b-1fa4-4eb5-9ee9-6eb7eb9be40d",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsHuggingFaceInference",
+      "typeVersion": 1,
+      "position": [
+        -288,
+        1200
+      ],
+      "id": "2854db3e-35a1-483f-9f35-3631e40d180a",
+      "name": "Embeddings HuggingFace Inference1",
+      "credentials": {
+        "huggingFaceApi": {
+          "id": "p9o4mUGyjK9DIjce",
+          "name": "HuggingFaceApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Work with pinecone vector db",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "resume-filtering",
+          "mode": "list",
+          "cachedResultName": "resume-filtering"
+        },
+        "topK": 5,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        -368,
+        992
+      ],
+      "id": "74e2ee4a-7b18-47d7-8d16-25f61181c293",
+      "name": "pinecone_vector_store",
+      "credentials": {
+        "pineconeApi": {
+          "id": "u97m5RiHjaEtBMEY",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"full_name\": \"Rohit Mahant\",\n  \"email\": \"rohit@example.com\",\n  \"phone\": \"+91 9876543210\",\n  \"match\": true,\n  \"score\": 75,\n  \"skills_matched\": [\"React.js\", \"Node.js\"],\n  \"skills_missing\": [\"MongoDB\"],\n  \"jd_keywords\": [\"SDE Intern\", \"Web Development\"],\n  \"resume_keywords\": [\"React.js\", \"Portfolio Project\"]\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -80,
+        992
+      ],
+      "id": "f1e75f3c-7789-45bd-bfdb-7ab51e6848f0",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "content": "## Checking whether the RESUME matches JOB DESCRIPTION\n**Along with a match variable are details like contact-info , skills-matched etc** ",
+        "height": 720,
+        "width": 1344
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1152,
+        624
+      ],
+      "id": "f165be6d-8eea-4914-a09e-877bceb2e4dc",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "model": "qwen/qwen3-32b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        -496,
+        992
+      ],
+      "id": "5a896bb8-a8d1-4d97-a148-20e53d9a046e",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "plfmt2fs1H1QaWuu",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1MihrOEfJ10PTfoROScTtccvZwCuwixjelPigxK-0qxw",
+          "mode": "list",
+          "cachedResultName": "Shortlisted_Resumes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1MihrOEfJ10PTfoROScTtccvZwCuwixjelPigxK-0qxw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1MihrOEfJ10PTfoROScTtccvZwCuwixjelPigxK-0qxw/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json.output.full_name }}",
+            "Email": "={{ $json.output.email }}",
+            "Phone Number": "={{ $json.output.phone }}",
+            "Skills-Matched": "={{ $json.output.skills_matched.toJsonString() }}",
+            "Skills-Missing": "={{ $json.output.skills_missing.toJsonString() }}",
+            "Score": "={{ $json.output.score }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Phone Number",
+              "displayName": "Phone Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Skills-Matched",
+              "displayName": "Skills-Matched",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Skills-Missing",
+              "displayName": "Skills-Missing",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Score",
+              "displayName": "Score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        352,
+        672
+      ],
+      "id": "981acdb1-6056-47cf-b4e4-2a7c95436e49",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "rH4eGs5WKZ712WND",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Data Organization\n**Appending data to sheet and sending email to shortlisted candidates** ",
+        "height": 432,
+        "width": 544,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        240,
+        400
+      ],
+      "typeVersion": 1,
+      "id": "4bf4d02f-53cc-4158-ba83-d9d8d55ba300",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "4eaf80c1-7afc-497e-aede-510ea40e1bba",
+              "leftValue": "={{ $json.output.match }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        128,
+        768
+      ],
+      "id": "c96d6f31-302d-43e6-b256-f5a0ee2ef8fc",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('AI Agent').item.json.output.email }}",
+        "subject": "Resume Declined",
+        "message": "=<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\" />\n    <title>Application Update</title>\n</head>\n<body style=\"font-family: Arial, sans-serif; background-color: #f7f7f7; padding: 20px;\">\n\n    <div style=\"max-width: 600px; margin: auto; background: #ffffff; border-radius: 8px; padding: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);\">\n        \n        <h2 style=\"color:#c0392b; margin-bottom: 10px;\">Application Update for {{ $('AI Agent').item.json.output.full_name }}</h2>\n\n        <p style=\"font-size: 16px; color:#333;\">\n            Thank you for applying for the \n            <strong>Jr Web Development Intern</strong> position and taking the time to submit your resume.\n        </p>\n\n        <p style=\"font-size: 16px; color:#333;\">\n            After a careful review of your application, we regret to inform you that \n            <strong>you were not shortlisted</strong> for the next stage of the selection process.\n        </p>\n\n        <p style=\"font-size: 16px; color:#333;\">\n            This decision was based on a comparison between your skillset and the requirements outlined in the job description.\n            Below is a summary of the skills that were missing or did not match closely enough:\n        </p>\n\n        <div style=\"background: #ffe6e6; padding: 15px; border-radius: 6px; margin: 20px 0;\">\n            <p style=\"margin: 5px 0; font-weight: bold;\">Skills You May Want to Improve:</p>\n            <ul style=\"margin: 10px 0 0 20px;\">\n                {% for skill in {{ $('AI Agent').item.json.output.skills_missing }} %}\n                    <li>{skill}</li>\n                {% endfor %}\n            </ul>\n        </div>\n\n        <p style=\"font-size: 16px; color:#333;\">\n            We truly appreciate your interest in joining our team. \n            Please don’t be discouraged — your enthusiasm and effort are valued, \n            and we encourage you to apply again for future opportunities after enhancing the mentioned skills.\n        </p>\n\n        <p style=\"font-size: 16px; color:#333;\">\n            We wish you the best in your learning journey and career ahead!\n        </p>\n\n        <p style=\"margin-top: 30px; font-size: 15px; color:#555;\">\n            Regards,<br>\n            <strong>The Recruitment Team</strong><br>\n            {{company_name}}\n        </p>\n\n    </div>\n\n</body>\n</html>\n",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        352,
+        864
+      ],
+      "id": "c8d9b10a-15c2-466f-b6c7-b850843f834b",
+      "name": "Resume Declined",
+      "webhookId": "9de2daeb-70fe-4acf-9913-7b08edb4b78b",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "n3JCABD08QCoy7O7",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('AI Agent').item.json.output.email }}",
+        "subject": "Resume Shortlisted ",
+        "message": "=<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\" />\n    <title>Shortlisted for Interview</title>\n</head>\n<body style=\"font-family: Arial, sans-serif; background-color: #f7f7f7; padding: 20px;\">\n\n    <div style=\"max-width: 600px; margin: auto; background: #ffffff; border-radius: 8px; padding: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);\">\n        \n        <h2 style=\"color:#2c3e50; margin-bottom: 10px;\">Congratulations, {{ $('AI Agent').item.json.output.full_name }}!</h2>\n\n        <p style=\"font-size: 16px; color:#333;\">\n            We are pleased to inform you that your application for the \n            <strong>Jr Web Development Intern</strong> role has been \n            <span style=\"color: green; font-weight: bold;\">shortlisted</span>.\n        </p>\n\n        <p style=\"font-size: 16px; color:#333;\">\n            Based on our evaluation, your profile aligns well with what we are looking for.\n            Here is a quick summary:\n        </p>\n\n        <div style=\"background: #f0f0f0; padding: 15px; border-radius: 6px; margin: 20px 0;\">\n            <p style=\"margin: 5px 0;\"><strong>Candidate:</strong> {{ $('AI Agent').item.json.output.full_name }}</p>\n            <p style=\"margin: 5px 0;\"><strong>Email:</strong> {{ $('AI Agent').item.json.output.email }}</p>\n            <p style=\"margin: 5px 0;\"><strong>Resume Match Score:</strong> {{ $('AI Agent').item.json.output.score }}%</p>\n        </div>\n\n        <p style=\"font-size: 16px; color:#333;\">\n            Our team would like to proceed with the next steps of the recruitment process.\n            Please use the link below to schedule your interview at your preferred time:\n        </p>\n\n        <p style=\"text-align: center; margin: 25px 0;\">\n            <a href=\"{{interview_link}}\" \n               style=\"background: #4CAF50; color: white; padding: 12px 20px; text-decoration: none; border-radius: 5px; font-size: 16px;\">\n               Schedule Interview\n            </a>\n        </p>\n\n        <p style=\"font-size: 16px; color:#333;\">\n            If you have any questions, feel free to reply to this email.  \n            We look forward to speaking with you soon!\n        </p>\n\n        <p style=\"margin-top: 30px; font-size: 15px; color:#555;\">\n            Regards,<br>\n            <strong>The Recruitment Team</strong><br>\n            {{company_name}}\n        </p>\n\n    </div>\n\n</body>\n</html>\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        576,
+        672
+      ],
+      "id": "7a39ab8e-2f0d-4d4e-a451-7f727b90c093",
+      "name": "Resume Shortlisted",
+      "webhookId": "9de2daeb-70fe-4acf-9913-7b08edb4b78b",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "n3JCABD08QCoy7O7",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Download file": [
+      {
+        "json": {
+          "parents": [
+            "1tWuD-Zfoa_1D4JIOI1eTW5N774i4lvXy"
+          ],
+          "lastModifyingUser": {
+            "displayName": "Goonjgbpiet24",
+            "kind": "drive#user",
+            "me": true,
+            "permissionId": "10507175194132502991",
+            "emailAddress": "semicile17@gmail.com",
+            "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocJvF2tLycQdaBT7Zcw0tXMeq2qFddl7YbOKz2KPtuS-HogYhiI=s64"
+          },
+          "owners": [
+            {
+              "displayName": "Goonjgbpiet24",
+              "kind": "drive#user",
+              "me": true,
+              "permissionId": "10507175194132502991",
+              "emailAddress": "semicile17@gmail.com",
+              "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocJvF2tLycQdaBT7Zcw0tXMeq2qFddl7YbOKz2KPtuS-HogYhiI=s64"
+            }
+          ],
+          "permissions": [
+            {
+              "kind": "drive#permission",
+              "id": "10507175194132502991",
+              "type": "user",
+              "emailAddress": "semicile17@gmail.com",
+              "role": "owner",
+              "displayName": "Goonjgbpiet24",
+              "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocJvF2tLycQdaBT7Zcw0tXMeq2qFddl7YbOKz2KPtuS-HogYhiI=s64",
+              "deleted": false,
+              "pendingOwner": false
+            }
+          ],
+          "spaces": [
+            "drive"
+          ],
+          "capabilities": {
+            "canAcceptOwnership": false,
+            "canAddChildren": false,
+            "canAddMyDriveParent": false,
+            "canChangeCopyRequiresWriterPermission": true,
+            "canChangeItemDownloadRestriction": true,
+            "canChangeSecurityUpdateEnabled": false,
+            "canChangeViewersCanCopyContent": true,
+            "canComment": true,
+            "canCopy": true,
+            "canDelete": true,
+            "canDisableInheritedPermissions": false,
+            "canDownload": true,
+            "canEdit": true,
+            "canEnableInheritedPermissions": true,
+            "canListChildren": false,
+            "canModifyContent": true,
+            "canModifyContentRestriction": true,
+            "canModifyEditorContentRestriction": true,
+            "canModifyOwnerContentRestriction": true,
+            "canModifyLabels": false,
+            "canMoveChildrenWithinDrive": false,
+            "canMoveItemIntoTeamDrive": true,
+            "canMoveItemOutOfDrive": true,
+            "canMoveItemWithinDrive": true,
+            "canReadLabels": false,
+            "canReadRevisions": true,
+            "canRemoveChildren": false,
+            "canRemoveContentRestriction": false,
+            "canRemoveMyDriveParent": true,
+            "canRename": true,
+            "canShare": true,
+            "canTrash": true,
+            "canUntrash": true
+          },
+          "permissionIds": [
+            "10507175194132502991"
+          ],
+          "linkShareMetadata": {
+            "securityUpdateEligible": false,
+            "securityUpdateEnabled": true
+          },
+          "downloadRestrictions": {
+            "itemDownloadRestriction": {
+              "restrictedForReaders": false,
+              "restrictedForWriters": false
+            },
+            "effectiveDownloadRestrictionWithContext": {
+              "restrictedForReaders": false,
+              "restrictedForWriters": false
+            }
+          },
+          "kind": "drive#file",
+          "id": "1mGuyAaqcRsnZaFalJ0xRo73j2s75ySQW",
+          "name": "SDE_Intern_Web_Development_Job_Description.pdf",
+          "mimeType": "application/pdf",
+          "starred": false,
+          "trashed": false,
+          "explicitlyTrashed": false,
+          "version": "3",
+          "webContentLink": "https://drive.google.com/uc?id=1mGuyAaqcRsnZaFalJ0xRo73j2s75ySQW&export=download",
+          "webViewLink": "https://drive.google.com/file/d/1mGuyAaqcRsnZaFalJ0xRo73j2s75ySQW/view?usp=drivesdk",
+          "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/application/pdf",
+          "hasThumbnail": true,
+          "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBPN2I0_sFxxGFZWRHHvbcWrX0yV5KDI63JSWQ9VAryZn3BVhrvHt31-5Ud3VdZL7CNRm8pc7zhLt0lvPFrUSmW3_FLvfJu6FrGlfp4gcnK37m0=s220",
+          "thumbnailVersion": "1",
+          "viewedByMe": true,
+          "viewedByMeTime": "2025-11-21T12:34:07.431Z",
+          "createdTime": "2025-11-21T12:34:07.431Z",
+          "modifiedTime": "2025-11-21T12:33:37.000Z",
+          "modifiedByMeTime": "2025-11-21T12:33:37.000Z",
+          "modifiedByMe": true,
+          "shared": false,
+          "ownedByMe": true,
+          "viewersCanCopyContent": true,
+          "copyRequiresWriterPermission": false,
+          "writersCanShare": true,
+          "originalFilename": "SDE_Intern_Web_Development_Job_Description.pdf",
+          "fullFileExtension": "pdf",
+          "fileExtension": "pdf",
+          "md5Checksum": "c0b0e9312245fbf1814da9e71807f436",
+          "sha1Checksum": "eeddb38eb3861d25a9d9e7eb3fed3491de04c8ad",
+          "sha256Checksum": "97f0029e9d796e6d355589a6917d4431522b9505678114aa8a1fe4ef8b1a6893",
+          "size": "2658",
+          "quotaBytesUsed": "2658",
+          "headRevisionId": "0BxJKp9YgEnHENEI3SUR4dHVLMDhORXE3MzkzcjhqRkwvckZZPQ",
+          "isAppAuthorized": false,
+          "inheritedPermissionsDisabled": false
+        },
+        "binary": {
+          "data": {
+            "mimeType": "application/pdf",
+            "fileType": "pdf",
+            "fileExtension": "pdf",
+            "data": "JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgaHR0cDovL3d3dy5yZXBvcnRsYWIuY29tCjEgMCBvYmoKPDwKL0YxIDIgMCBSIC9GMiAzIDAgUgo+PgplbmRvYmoKMiAwIG9iago8PAovQmFzZUZvbnQgL0hlbHZldGljYSAvRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyAvTmFtZSAvRjEgL1N1YnR5cGUgL1R5cGUxIC9UeXBlIC9Gb250Cj4+CmVuZG9iagozIDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhLUJvbGQgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgL05hbWUgL0YyIC9TdWJ0eXBlIC9UeXBlMSAvVHlwZSAvRm9udAo+PgplbmRvYmoKNCAwIG9iago8PAovQ29udGVudHMgOCAwIFIgL01lZGlhQm94IFsgMCAwIDYxMiA3OTIgXSAvUGFyZW50IDcgMCBSIC9SZXNvdXJjZXMgPDwKL0ZvbnQgMSAwIFIgL1Byb2NTZXQgWyAvUERGIC9UZXh0IC9JbWFnZUIgL0ltYWdlQyAvSW1hZ2VJIF0KPj4gL1JvdGF0ZSAwIC9UcmFucyA8PAoKPj4gCiAgL1R5cGUgL1BhZ2UKPj4KZW5kb2JqCjUgMCBvYmoKPDwKL1BhZ2VNb2RlIC9Vc2VOb25lIC9QYWdlcyA3IDAgUiAvVHlwZSAvQ2F0YWxvZwo+PgplbmRvYmoKNiAwIG9iago8PAovQXV0aG9yIChcKGFub255bW91c1wpKSAvQ3JlYXRpb25EYXRlIChEOjIwMjUxMTIxMTIzMjEwKzAwJzAwJykgL0NyZWF0b3IgKFwodW5zcGVjaWZpZWRcKSkgL0tleXdvcmRzICgpIC9Nb2REYXRlIChEOjIwMjUxMTIxMTIzMjEwKzAwJzAwJykgL1Byb2R1Y2VyIChSZXBvcnRMYWIgUERGIExpYnJhcnkgLSB3d3cucmVwb3J0bGFiLmNvbSkgCiAgL1N1YmplY3QgKFwodW5zcGVjaWZpZWRcKSkgL1RpdGxlIChcKGFub255bW91c1wpKSAvVHJhcHBlZCAvRmFsc2UKPj4KZW5kb2JqCjcgMCBvYmoKPDwKL0NvdW50IDEgL0tpZHMgWyA0IDAgUiBdIC9UeXBlIC9QYWdlcwo+PgplbmRvYmoKOCAwIG9iago8PAovRmlsdGVyIFsgL0FTQ0lJODVEZWNvZGUgL0ZsYXRlRGVjb2RlIF0gL0xlbmd0aCAxMjI2Cj4+CnN0cmVhbQpHYXMxXj8kRyFsJjpPO1ZRcSxwNiI7LjdlbTdXTE1QTGNfZjFlJm9JXVdAbkBYTSo9ZnAmaTFIbihqN0YwWkg4JyowPWNGbWJHP29RLWZgPC86RWlvZERxZDZJRUV0LTtJMzpGMHRzPVlOYjgrP3BUcHJeXV9rJUQ/UzJuS0NQXjktJzNvJl1iKyFNRiVTPE4zczQ/Ti9LXj1SI286JFdSQzxvcjBFXVgvZSgwbzJxRGNpRjlASTtBaUoqO2NmRi1RXWg1NVMkK1gyNSE4SWEpdFEnYFdMPV5oPkxLaD8xUVoicSliZFI/VEZlO1FtI1dRMz1WNDNHR2tpXD5edW5OMGJMXVdHJDBhXlElYWdKN3RmXTtEVk5cN2RTPWktaFE5Qks5O1RyWVIoQz06XHBNNTNbMm5FKTpPajwwcDplZk9FTXR0PFtwT0JAaXFbTGBqKzdWTUkuJWtvaiJScFonLV1WPSdgT0siVDI1OStJZ3JOJUZeVyQ7Jz9udCY4ZUlZLjZQMV9BJzNFTyZgLys/UUEkXjhbYDgwOlY7SzhJTU03JUdXbzFQRzsvOFZiQV1cZ1w+OltOYU0jZExLP21DMUQrJk9IQTJBSVQlcG5iWmg3REtlOjc0QylcPkgxIl5vPiUySGotOE5AL0ZWOSJKMTpyK1VtTEZDOWxtUF8vaF1NX1BLajdeJ2dcaUwlUHVBNDghSmFESlYucXNoQyhlZmE5YygnJDVnWV1MYkBfcTsrX1BCN04hSzJqMC9yKjJgYF4/YTxmQjAwM0VCSG9zXC9qUjtZal4/MG9aUEBlUyk7W1E6Lm1ZJTkmVy02ZGBVI1FHQU9yNiR1IjZEI3Q4QThXWjJdPUxqMDwoVS9HLGk7W1dEbiQmbi8pSF9GVTJGZlYuISUhQDNBVS45Om1kVjNQZl9bZHEmWj5rPk9fdW1ybSw3QSQ3QUlSXHE0TldiL1hqZFZFYVhkbVk1Z0hUK0MxbWZTRmZlQWE+QzNJaEUyWzA1UWtgKU02PkpyPyxsKylHVjZXIjw+TCg4SC9tNU0oUUhpWC5ZLE9TZl9WQztrJ29LQztnZSZoaVslKyhDcTJkal4mXzZqT1goa2RBbFxuYnJKPF8sRkM5U0NuYW9pVUdmQTlRaFdQI1Q4PTpAUyI4PDs8WkhnbGAqcTdmKjcnalNGbE07bGMwb2VaKDdLZT1bKSc+OCJwZFQzOispVDs2ZkQtMTlDalI2JyhqdUFNJzt1blc4cWElQTVzV1BePWlqbGRPJzFAZk8wVytkKk9XQ3FBdWY8MG9qUF9nZmguKXAyRlkqLG9ub3VUUjJGJDE7MEc5SEs9J2AvLWNwIWdhYE8qRjlrZUFiT2FvcCNKJyMoYHFcL2JBKDBmJykmcjUmR29tWy1Dc2JtI15xcztoKFtFKWlOamVvMnJVcVN1TV5VVUhNY1RPZkBfRmwnNWBzIStvamVvW2A4OjNyJSQua25gZ24uUlNUKS8mQ1BdbGZOJzlkV1NFRypZRy4nNzxlZTsnNjVnP19uLWRVbVgpZUUnVTJsNCMxWzUtSzxCWUdJUklRLUlPLW9MUyRNJlRAITRcPVBTQyNkVkAnc0VzYnJ0IVRScSM+WTBCRSYiPDo3JSh+PmVuZHN0cmVhbQplbmRvYmoKeHJlZgowIDkKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDczIDAwMDAwIG4gCjAwMDAwMDAxMTQgMDAwMDAgbiAKMDAwMDAwMDIyMSAwMDAwMCBuIAowMDAwMDAwMzMzIDAwMDAwIG4gCjAwMDAwMDA1MjYgMDAwMDAgbiAKMDAwMDAwMDU5NCAwMDAwMCBuIAowMDAwMDAwODc3IDAwMDAwIG4gCjAwMDAwMDA5MzYgMDAwMDAgbiAKdHJhaWxlcgo8PAovSUQgCls8MDIyMjJjMDRlODE5OTRiZmE0NDYyMDFjNGY4ZjYyYWY+PDAyMjIyYzA0ZTgxOTk0YmZhNDQ2MjAxYzRmOGY2MmFmPl0KJSBSZXBvcnRMYWIgZ2VuZXJhdGVkIFBERiBkb2N1bWVudCAtLSBkaWdlc3QgKGh0dHA6Ly93d3cucmVwb3J0bGFiLmNvbSkKCi9JbmZvIDYgMCBSCi9Sb290IDUgMCBSCi9TaXplIDkKPj4Kc3RhcnR4cmVmCjIyNTMKJSVFT0YK",
+            "fileName": "SDE_Intern_Web_Development_Job_Description.pdf",
+            "fileSize": "2.66 kB"
+          }
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings HuggingFace Inference": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Job Description": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Resume": {
+      "main": [
+        [
+          {
+            "node": "Download file1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file1": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings HuggingFace Inference1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "pinecone_vector_store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pinecone_vector_store": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Resume Shortlisted",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Resume Declined",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "b9250949-2c71-4a7f-bd84-95e060619c92",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "de7597ed90dffe682352383ae181f1528204048a458828e0dd16e54859ee6584"
+  },
+  "id": "1BxteAspWgey30JE",
+  "tags": []
+}
